@@ -1,0 +1,55 @@
+name: betaflight-configurator
+base: core20
+adopt-info: configurator
+summary: Collection of betaflight fp utilities
+description: |
+  Manage Betaflight FPV controllers
+
+  please connect the hardware-observe, process-control and raw-usb snap plugs
+  for this application to function properly.
+
+grade: stable
+confinement: strict
+compression: lzo
+
+architectures:
+  - build-on: [ amd64 ]
+    run-on: [ amd64 ]
+
+apps:
+  betaflight-configurator:
+    extensions: [ gnome-3-38 ]
+    command: app/betaflight-configurator --no-sandbox
+    desktop: app/betaflight-configurator.desktop
+    plugs:
+      - bluez
+      - browser-support
+      - hardware-observe
+      - process-control
+      - network
+      - network-bind
+      - raw-usb
+      - upower-observe
+
+parts:
+  configurator:
+    plugin: nil
+    source: https://github.com/betaflight/betaflight-configurator.git
+    source-tag: 10.7.2
+    override-pull: |
+      snapcraftctl pull
+      # adjust icon path for snap
+      sed -i 's|Icon=.*|Icon=/app/icon/bf_icon_128.png|' assets/linux/betaflight-configurator.desktop
+    override-build: |
+      npm install yarn
+      yarn install
+      yarn gulp apps --linux64
+      cp -a apps/betaflight-configurator/linux64 $SNAPCRAFT_PART_INSTALL/app
+      # set package version from upstream source
+      VER="$(grep version package.json | sed 's/^.*: //;s/[",]//g')"
+      snapcraftctl set-version $VER
+    build-snaps:
+      - node/10/stable
+    stage-packages:
+      - libnss3
+      - libxss1
