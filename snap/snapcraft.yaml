@@ -53,3 +53,8 @@ parts:
     stage-packages:
       - libnss3
       - libxss1
+    stage:
+      - -etc
+      - -usr/bin
+      - -usr/include
+      - -usr/share
