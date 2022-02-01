@@ -19,7 +19,7 @@ architectures:
 apps:
   betaflight-configurator:
     extensions: [ gnome-3-38 ]
-    command: app/betaflight-configurator --no-sandbox
+    command: app/betaflight-configurator --disable-gpu --no-sandbox
     desktop: app/betaflight-configurator.desktop
     plugs:
       - bluez
