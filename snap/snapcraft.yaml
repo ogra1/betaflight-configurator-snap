@@ -25,6 +25,7 @@ apps:
       - bluez
       - browser-support
       - hardware-observe
+      - joystick
       - process-control
       - network
       - network-bind
