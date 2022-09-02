@@ -36,7 +36,7 @@ parts:
   configurator:
     plugin: nil
     source: https://github.com/betaflight/betaflight-configurator.git
-    source-tag: 10.7.2
+    source-tag: 10.8.0
     override-pull: |
       snapcraftctl pull
       # adjust icon path for snap
